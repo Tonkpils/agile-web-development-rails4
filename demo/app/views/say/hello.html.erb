@@ -11,3 +11,9 @@
   Concatenation: <%= "cow" + "boy" %> <br/>
   Time in one hour: <%= 1.hour.from_now.localtime %>
 </p>
+
+<ul>
+  <% @files.each do |file| %>
+    <li>file name is: <%= file %></li>
+  <% end %>
+</ul>
