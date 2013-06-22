@@ -85,16 +85,29 @@ describe Product do
   describe '#title' do
     let(:product) { create(:product) }
 
-    context 'when product title is not unique' do
-      let(:new_product) { build(:product, title: product.title) }
+    context 'when the product title is not unique' do
+      let(:invalid_product) { build(:product, title: product.title) }
 
-      before { new_product.valid? }
+      before { invalid_product.valid? }
 
-      it 'is not a valid product without a unique title' do
-        expect(new_product).to be_invalid
+      it 'is not a valid product' do
+        expect(invalid_product).to be_invalid
       end
       it 'has a validation error message' do
-        expect(new_product.errors[:title]).to eq([I18n.translate('errors.messages.taken')])
+        expect(invalid_product.errors[:title]).to eq([I18n.translate('errors.messages.taken')])
+      end
+    end
+
+    context 'when the product title is less than 10 characters' do
+      before do
+        product.title = "t" * 9
+        product.valid?
+      end
+      it 'is not a valid product' do
+        expect(product).to be_invalid
+      end
+      it 'has a validation error message' do
+        expect(product.errors[:title]).to eq([I18n.translate('errors.messages.too_short', count: 10)])
       end
     end
   end
