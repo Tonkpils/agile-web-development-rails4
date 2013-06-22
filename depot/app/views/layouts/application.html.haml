@@ -7,4 +7,15 @@
     = csrf_meta_tags
 
   %body{class: controller.controller_name}
-    = yield
+    #banner
+      = image_tag('logo.png')
+      = @page_title || "Pragmatic Bookshelf"
+    #columns
+      #side
+        %ul
+          %li= link_to "Home", "#"
+          %li= link_to "Questions", "#questions"
+          %li= link_to "News", "#news"
+          %li= link_to "Contact", "#contact"
+    #main
+      = yield

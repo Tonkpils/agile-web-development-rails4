@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :product do
-    title 'Awesome title'
-    description 'Awesome description'
-    price 1
+    title 'Great Book'
+    description 'Description'
+    price 9.99
     image_url 'freddie.jpg'
   end
 end
