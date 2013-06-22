@@ -21,7 +21,7 @@ describe Product do
     its([:image_url])   { should be_present }
   end
 
-  describe 'product price' do
+  describe '#price' do
     let(:product) { build(:product) }
 
     context 'with negative price' do
@@ -64,7 +64,7 @@ describe Product do
     end
   end
 
-  describe 'product image_url' do
+  describe '#image_url' do
     ok =  %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg http://a.b.c/x/y/z/fred.gif }
     bad = %w{ fred.doc fred.gif/more fred.gif.more }
 
@@ -80,5 +80,22 @@ describe Product do
       end
     end
 
+  end
+
+  describe '#title' do
+    let(:product) { create(:product) }
+
+    context 'when product title is not unique' do
+      let(:new_product) { build(:product, title: product.title) }
+
+      before { new_product.valid? }
+
+      it 'is not a valid product without a unique title' do
+        expect(new_product).to be_invalid
+      end
+      it 'has a validation error message' do
+        expect(new_product.errors[:title]).to eq([I18n.translate('errors.messages.taken')])
+      end
+    end
   end
 end
