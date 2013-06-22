@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Product do
 
   def new_product(image_url)
-    Product.new(title: 'My Book Title', description: 'yyy', price: 1, image_url: image_url)
+    build(:product, image_url: image_url)
   end
 
   context 'when product attributes are empty' do
@@ -22,7 +22,7 @@ describe Product do
   end
 
   describe 'product price' do
-    let(:product) { Product.new(title: 'My Book Title', description: 'yyy', image_url: 'zzz.jpg') }
+    let(:product) { build(:product) }
 
     context 'with negative price' do
       before do
