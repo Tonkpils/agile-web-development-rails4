@@ -12,6 +12,8 @@
         = item.product.title
       %td.item_price
         = number_to_currency(item.total_price)
+      %td.actions
+        = button_to 'Delete item', item, method: :delete, data: { confirm: 'Are you sure?' }
     %tr.total_line
       %td(colspan="2") Total
       %td.total_cell= number_to_currency(@cart.total_price)
