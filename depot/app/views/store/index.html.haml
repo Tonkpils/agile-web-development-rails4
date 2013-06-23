@@ -3,7 +3,10 @@
 
 %h1
   = "Your Pragmatic Catalog"
-
+  %br
+  - if session[:counter] && session[:counter] > 5
+    %small
+      = "Visit ##{session[:counter]}"
 - cache ['store', Product.latest] do
   - @products.each do |product|
     - cache ['entry', product] do
@@ -13,3 +16,4 @@
         = sanitize(product.description)
         .price_line
           %span.price= number_to_currency(product.price)
+          = button_to 'Add to Cart', line_items_path(product_id: product)
