@@ -8,6 +8,7 @@ describe "store/index.html.haml" do
   it 'renders a list of products' do
     render
 
+    assert_select '#columns #side .time',
     assert_select '#columns #side a', minimum: 4
     assert_select '#main .entry', 3
     assert_select 'h3', 'Great Book'
