@@ -29,9 +29,24 @@ describe LineItemsController do
 
       it "redirects to the created line_item" do
         post :create, {:line_item => valid_attributes, product_id: product}, valid_session
-        response.should redirect_to(Cart.last)
+        response.should redirect_to store_path
       end
 
+      context 'with an ajax request' do
+        it "creates a new LineItem" do
+          expect {
+            xhr :post, :create, {:line_item => valid_attributes, product_id: product}, valid_session
+          }.to change(LineItem, :count).by(1)
+        end
+        it 'is a successful request' do
+          xhr :post, :create, {line_item: valid_attributes, product_id: product}, valid_session
+          response.should be_success
+        end
+        it 'creates the line item' do
+          xhr :post, :create, {line_item: valid_attributes, product_id: product}, valid_session
+          assigns(:line_item).should be_a(LineItem)
+        end
+      end
     end
   end
 
