@@ -7,4 +7,4 @@
   %td.item_price
     = number_to_currency(line_item.total_price)
   %td.actions
-    = button_to 'Delete item', line_item, method: :delete, data: { confirm: 'Are you sure?' }
+    = button_to 'V', decrement_line_item_path(line_item), method: :patch, remote: true

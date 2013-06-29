@@ -1,8 +1,8 @@
 class LineItemsController < ApplicationController
   include CurrentCart, StoreCounter
-  before_action :set_cart, only: [:create]
+  before_action :set_cart, only: [:create, :decrement]
   after_action  :reset_visit_counter, only: [:create]
-  before_action :set_line_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_line_item, only: [:show, :edit, :update, :destroy, :decrement]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_product
 
   # GET /line_items
@@ -39,6 +39,21 @@ class LineItemsController < ApplicationController
       else
         format.html { render action: 'new' }
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def decrement
+    if @line_item.quantity == 1
+      @line_item.destroy
+    else
+      @line_item.decrement!(:quantity)
+    end
+
+    respond_to do |format|
+      format.js do
+        @current_item = @line_item
+        #render file: 'line_items/create.js.erb'
       end
     end
   end
