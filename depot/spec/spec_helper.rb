@@ -23,6 +23,14 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
+  def login_as(user)
+    session[:user_id] = user.id
+  end
+
+  def logout
+    session.delete :user_id
+  end
+
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
@@ -32,6 +40,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    login_as create(:user) if defined? session
   end
 
   config.after(:each) do
