@@ -8,8 +8,12 @@
 
   %body{class: controller.controller_name}
     #banner
+      = form_tag store_path, class: 'locale' do
+        = select_tag 'set_locale', options_for_select(Depot::LANGUAGES, I18n.locale.to_s), onchange: 'this.form.submit()'
+        = submit_tag 'submit'
+        = javascript_tag "$('.locale input').hide()"
       = image_tag('logo.png')
-      = @page_title || "Pragmatic Bookshelf"
+      = @page_title || t('.title')
     #columns
       #side
         - if @cart
@@ -17,10 +21,10 @@
             = render @cart
         %p.time= Time.now.strftime('%B %d, %Y %I:%M:%S%p')
         %ul
-          %li= link_to "Home", "#"
-          %li= link_to "Questions", "#questions"
-          %li= link_to "News", "#news"
-          %li= link_to "Contact", "#contact"
+          %li= link_to t('.home'), "#"
+          %li= link_to t('.questions'), "#questions"
+          %li= link_to t('.news'), "#news"
+          %li= link_to t('.contact'), "#contact"
 
         - if session[:user_id]
           %ul
